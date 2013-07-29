@@ -17,10 +17,10 @@ Jeweler::Tasks.new do |gem|
   gem.name = "YYFeed"
   gem.homepage = "http://github.com/yuchan/YYFeed"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "yusukeoha@gmail.com"
-  gem.authors = ["Yusuke Ohashi"]
+  gem.summary = "RSS Parsed Objects Generator"
+  gem.description = "This generate an integrated rss parsed object."
+  gem.email = "yusuke@junkpiano.me"
+  gem.authors = ["yuchan"]
   # dependencies defined in Gemfile
 end
 Jeweler::RubygemsDotOrgTasks.new
