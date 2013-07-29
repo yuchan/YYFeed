@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "README.rdoc",
     "Rakefile",
     "VERSION",
+    "YYFeed.gemspec",
     "lib/YYFeed.rb",
     "spec/YYFeed_spec.rb",
     "spec/spec_helper.rb"
