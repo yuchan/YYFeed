@@ -1,6 +1,7 @@
 = YYFeed
 
 Description goes here.
+* WARNING: It is under development phase.
 
 == Contributing to YYFeed
  

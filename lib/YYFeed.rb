@@ -1,12 +1,14 @@
 require 'rss'
+require 'open-uri'
 
 module YYFeed
   class FeedItem
-    attr_accessor :title, :date
+    attr_accessor :title, :date, :link
 
     def initialize
       @title = nil
       @date = nil
+      @link = nil
     end
   end
 
@@ -27,12 +29,21 @@ module YYFeed
       end
     end
 
+    def link
+      if @content.feed_type == "atom"
+        return @content.link.href
+      elsif @content.feed_type == "rss"
+        return @content.channel.link
+      end
+    end
+
     def items
       if @content.feed_type == "atom"
         @content.entries.each do |t|
           itemObj = FeedItem.new
           itemObj.title = t.title.content
           itemObj.date = t.updated.content
+          itemObj.link = t.link.href
           @items.push(itemObj)
         end
       elsif @content.feed_type == "rss"
@@ -40,6 +51,7 @@ module YYFeed
           itemObj = FeedItem.new     
           itemObj.title = t.title
           itemObj.date = t.pubDate
+          itemObj.link = t.link
           @items.push(itemObj)
         end
       end
@@ -53,11 +65,14 @@ module YYFeed
     def initialize
       @feeds = Array.new
     end
-
-    def appendFeed(feed)
-      feedObj = Feed.new
-      feedObj.content = feed
-      @feeds.push(feedObj)
+    
+    def appendFeed(url)
+      open(url) do |rss|
+        feed = RSS::Parser.parse(rss)
+        feedObj = Feed.new
+        feedObj.content = feed
+        @feeds.push(feedObj)
+      end
     end
 
     def feeds
