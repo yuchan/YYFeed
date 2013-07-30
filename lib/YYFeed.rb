@@ -3,12 +3,13 @@ require 'open-uri'
 
 module YYFeed
   class FeedItem
-    attr_accessor :title, :date, :link
+    attr_accessor :title, :date, :link, :data
 
     def initialize
       @title = nil
       @date = nil
       @link = nil
+      @data = nil
     end
   end
 
@@ -37,6 +38,14 @@ module YYFeed
       end
     end
 
+    def description
+      if @content.feed_type == "atom"
+        return ""
+      elsif @content.feed_type == "rss"
+        return @content.channel.description
+      end
+    end
+
     def items
       if @content.feed_type == "atom"
         @content.entries.each do |t|
@@ -44,6 +53,7 @@ module YYFeed
           itemObj.title = t.title.content
           itemObj.date = t.updated.content
           itemObj.link = t.link.href
+          itemObj.data = t
           @items.push(itemObj)
         end
       elsif @content.feed_type == "rss"
@@ -77,6 +87,18 @@ module YYFeed
 
     def feeds
       return @feeds
+    end
+
+    def allitems
+      ary = Array.new
+      @feeds.each do |t|
+        t.items.each do |item|
+          ary.push(item)
+        end
+      end
+      return ary.sort {|a, b|
+        b.date <=> a.date
+      }
     end
   end 
 end
