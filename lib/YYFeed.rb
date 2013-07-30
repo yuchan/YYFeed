@@ -62,6 +62,7 @@ module YYFeed
           itemObj.title = t.title
           itemObj.date = t.pubDate
           itemObj.link = t.link
+          itemObj.data = t
           @items.push(itemObj)
         end
       end
